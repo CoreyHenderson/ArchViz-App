@@ -1,4 +1,4 @@
-# ArchViz-App
+# ArchViz App
 An Augmented Reality mobile app that provides users a means of planning and visualising the designs of a building. This allows for planning the architectural layout of plumbing or electrical lines through the walls of the building or interior furniture layouts.
 
 <img src="https://i.imgur.com/bOun1cs.png" height="200">                    <img src="https://i.imgur.com/bpFJJNp.png" height="200">
