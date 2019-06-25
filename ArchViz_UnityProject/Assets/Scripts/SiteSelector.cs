@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -14,10 +14,13 @@ public class SiteSelector : MonoBehaviour
     private Button siteButton;
     private Text siteText;
 
+    bool isOnSite;
+
     // Start is called before the first frame update
     void Start()
     {
         siteCanvas.enabled = false;
+        isOnSite = false;
 
         siteUI = siteCanvas.transform.Find("MovingAnchor").gameObject.transform.Find("SiteUI").gameObject.GetComponent<Image>();
         siteButton = siteCanvas.transform.Find("MovingAnchor").gameObject.transform.Find("EnterSiteButton").gameObject.GetComponent<Button>();
@@ -53,6 +56,8 @@ public class SiteSelector : MonoBehaviour
                 // If the line hits the wall of the construction site
                 if (hit.collider != null && hit.collider.gameObject.tag == "CSite")
                 {
+                    isOnSite = true;
+
                     // Set text
                     siteText.text = "Construction Site\n\n" + "Completed:\n" + "- No stages currently completed" + "\n\nUncompleted:" + "\n- Architect" + "\n- Builder" + "\n- Interior Designer";
                     // Set image size
@@ -81,7 +86,10 @@ public class SiteSelector : MonoBehaviour
         // Else if it doesn't hit a building and Is not currently on the UI itself then remove UI
         else if (EventSystem.current.IsPointerOverGameObject() == false)
         {
-            siteCanvas.enabled = false;
+            if (isOnSite == false)
+            {
+                siteCanvas.enabled = false;
+            }
         }
     }
 
@@ -93,19 +101,22 @@ public class SiteSelector : MonoBehaviour
         int middleScreenX = Screen.width / 2;
         int middleScreenY = Screen.height / 2;
 
+        float uiWidth = UIAnchor.gameObject.GetComponent<RectTransform>().sizeDelta.x;
+        float uiHeight = UIAnchor.gameObject.GetComponent<RectTransform>().sizeDelta.y;
+
         // Move UI position X away from right edge of screen (Move left)
         if (UIAnchor.position.x > middleScreenX)
-            UIAnchor.position = new Vector3(UIAnchor.position.x - 190.0f, UIAnchor.position.y, UIAnchor.position.z);
+            UIAnchor.position = new Vector3(UIAnchor.position.x - (uiWidth/2), UIAnchor.position.y, UIAnchor.position.z); // 190.0f
         // Move UI position X awau from left edge of screen (Move right)
         else if (UIAnchor.position.x < middleScreenX)
-            UIAnchor.position = new Vector3(UIAnchor.position.x + 190.0f, UIAnchor.position.y, UIAnchor.position.z);
+            UIAnchor.position = new Vector3(UIAnchor.position.x + (uiWidth/2), UIAnchor.position.y, UIAnchor.position.z);
 
         // Move UI position Y away from top edge of screen (Move down)
         if (UIAnchor.position.y > middleScreenY)
-            UIAnchor.position = new Vector3(UIAnchor.position.x, UIAnchor.position.y - 130.0f, UIAnchor.position.z);
+            UIAnchor.position = new Vector3(UIAnchor.position.x, UIAnchor.position.y - (uiHeight/2), UIAnchor.position.z); // 130.0f
         // Move UI position Y away from bottom edge of screen (Move up)
         else if (UIAnchor.position.y < middleScreenY)
-            UIAnchor.position = new Vector3(UIAnchor.position.x, UIAnchor.position.y + 130.0f, UIAnchor.position.z);
+            UIAnchor.position = new Vector3(UIAnchor.position.x, UIAnchor.position.y + (uiHeight/2), UIAnchor.position.z);
 
     }
 }
